@@ -1,0 +1,99 @@
+<odoo>
+    <data>
+        <record id="sitesearchapp_index_form_view" model="ir.ui.view">
+            <field name="name">sitesearchapp.indexer.form.view</field>
+            <field name="model">searchapp.search</field>
+            <field name="arch" type="xml">
+                <form string="SiteSearchApp menu">
+                    <header>
+                        <button name="index_record" type="object" string="Index Record" class="btn-primary"/>
+                        <button name="delete_index" type="object" string="Delete Indexed Records" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <group string="Index Information">
+                            <field name="name" readonly="1"/>
+                            <field name="identifier" readonly="1"/>
+                            <field name="website_id" readonly="1"/>
+                            <field name="model_id" required="1"/>
+                            <field name="model" invisible="1"/>
+                            <field name="domain" widget="domain"
+                                   placeholder="Select records"
+                                   attrs="{'invisible': [('model_id', '=', False)]}"
+                                   options="{'model': 'model'}"/>
+                            <field name="attribute_ids" widget="many2many_tags"/>
+                            <field name="index_date" invisible="1" readonly="1"/>
+                        </group>
+
+                        <separator string="Advance Options" groups="base.group_no_one"/>
+                        <group groups="base.group_no_one">
+                            <field name="default_name"/>
+                            <field name="name_field" domain="[('model_id','=',model_id)]"
+                                   attrs="{'invisible': [('default_name', '=', True)], 'required': [('default_name', '!=', True)]}"/>
+                            <field name="default_slug"/>
+                            <field name="url_prefix"
+                                   attrs="{'invisible': [('default_slug', '=', True)], 'required': [('default_slug', '!=', True)]}"/>
+                            <field name="url_field" domain="[('model_id','=',model_id)]"
+                                   attrs="{'invisible': [('default_slug', '=', True)], 'required': [('default_slug', '!=', True)]}"/>
+                            <field name="is_product" invisible="1"/>
+                        </group>
+                        <group string="Image" attrs="{'invisible': [('is_product', '!=', True)]}"
+                               groups="base.group_no_one">
+                            <field name="image_size" placeholder="The size of the image in pixels e.g. 68x68"/>
+                            <field name="image_field" domain="[('model_id','=',model_id)]"/>
+                            <field name="variant_img"/>
+                        </group>
+                        <group string="Price" attrs="{'invisible': [('is_product', '!=', True)]}"
+                               groups="base.group_no_one">
+                            <field name="currency_id"/>
+                            <field name="price_field" domain="[('model_id','=',model_id)]"/>
+                            <field name="slash_field" domain="[('model_id','=',model_id)]"/>
+                            <field name="hide_price"/>
+                            <field name="pricelist_id"/>
+                        </group>
+                        <group string="Promo" attrs="{'invisible': [('is_product', '!=', True)]}"
+                               groups="base.group_no_one">
+                            <field name="promo_field" domain="[('model_id','=',model_id)]"/>
+                        </group>
+                        <group string="Review" attrs="{'invisible': [('is_product', '!=', True)]}"
+                               groups="base.group_no_one">
+                            <field name="avg_review" domain="[('model_id','=',model_id)]"/>
+                            <field name="total_review" domain="[('model_id','=',model_id)]"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sitesearchapp_indexer_tree_view" model="ir.ui.view">
+            <field name="name">sitesearchapp.indexer.tree.view</field>
+            <field name="model">searchapp.search</field>
+            <field name="arch" type="xml">
+                <tree string="SiteSearchApp menu" create="false">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="domain"/>
+                    <field name="index_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sitesearchapp_indexer_action" model="ir.actions.act_window">
+            <field name="name">Indexer</field>
+            <field name="res_model">searchapp.search</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'group_by': 'website_id'}</field>
+        </record>
+
+        <menuitem name="SiteSearchApp"
+                  id="sitesearchapp_menu"
+                  parent="website.menu_website_global_configuration"
+                  sequence="60"
+        />
+
+        <menuitem id="menu_sitesearchapp_indexer_menu"
+                  action="sitesearchapp_indexer_action"
+                  parent="website_searchapp.sitesearchapp_menu"
+                  sequence="10"
+        />
+    </data>
+</odoo>

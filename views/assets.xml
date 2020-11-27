@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <template id="sitesearchapp_assets_frontend" name="Website SiteSearchApp Frontend Assets"
+                  inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <!--CSS-->
+                <style>
+                    <t t-raw="request.env['website'].get_searchapp_styles()"/>
+                </style>
+                <link rel="stylesheet" type="text/scss"
+                      href="/website_searchapp/static/styles/scss/sitesearchapp.scss"/>
+                <link rel="stylesheet" type="text/css"
+                      href="/website_searchapp/static/js/star-rating/star-rating-svg.css"/>
+                <!--JS-->
+                <script type="text/javascript" src="/website_searchapp/static/js/mark.js"/>
+                <script type="text/javascript" src="/website_searchapp/static/js/sitesearchapp.js"/>
+                <script type="text/javascript"
+                        src="/website_searchapp/static/js/star-rating/jquery.star-rating-svg.min.js"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

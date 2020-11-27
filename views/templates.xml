@@ -1,0 +1,113 @@
+<odoo>
+    <data>
+        <template id="search_box" name="SiteSearchApp Search Box Content">
+            <div id="search_box_container">
+                <form action="/search" method="get" t-att-class="search_class" autocomplete="off">
+                    <div class="input-group">
+                        <div class="oe_search">
+                            <input id="search-input" type="text" name="q"
+                                   class="search-query form-control oe_search_box"
+                                   placeholder="Search..." t-att-value="search"/>
+                        </div>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default oe_search_button">
+                                <i class="fa fa-search"/>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="search_box_header" name="SiteSearchApp Search Box" customize_show="True" active="False"
+                  inherit_id="portal.frontend_layout">
+            <xpath expr="//div[@class='collapse navbar-collapse']" position="after">
+                <t t-call="website_searchapp.search_box"/>
+            </xpath>
+        </template>
+
+        <template id="product_search_no_index_no_follow" name="Product Search No Index, No Follow"
+                  inherit_id="website_sale.products">
+            <xpath expr="t" position="before">
+                <t t-if="noindex_nofollow">
+                    <t t-set="head">
+                        <meta name="robots" content="noindex,nofollow"/>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="results" name="SiteSearchApp Search Results" inherit_id="website_sale.products">
+            <xpath expr="//table" position="before">
+                <h1 t-if="search and (search_data or products)" class="mb16">Search Results for
+                    <i>
+                        <t t-esc="search"/>
+                    </i>
+                </h1>
+                <h1 t-if="search and not (search_data or products)" class="mb16">
+                    No Results Found for
+                    <i>
+                        <t t-esc="search"/>
+                    </i>
+                </h1>
+                <t t-if="search_indices and search_indices.get('results')">
+                    <ul class="search_indices list-inline mb8">
+                        <t t-foreach="search_indices.get('results')" t-as="indx">
+                            <li t-if="indx_value.get('hits', {}).get('total')" class="list-inline-item">
+                                <a t-attf-href="/search?q={{search}}&amp;index={{indx}}" t-attf-class="text-capitalize {{'active' if indx == active_index else ''}}">
+                                    <t t-esc="indx"/>
+                                    (<t t-esc="search_count if indx == active_index else indx_value.get('hits', {}).get('total')"/>)
+                                </a>
+                            </li>
+                        </t>
+                    </ul>
+                </t>
+            </xpath>
+            <xpath expr="//table/.." position="inside">
+                <ul t-if="active_index == 'category'" class="list-unstyled">
+                    <li t-foreach="search_data" t-as="cat" class="search_list">
+                        <t t-set="name" t-value="name_field and cat[name_field]"/>
+                        <t t-set="url" t-value="url_regex and url_regex % cat.id or url_field and cat[url_field] or '/'"/>
+                        <a t-att-href="url">
+                            <h5 class="mt0 mb0">
+                                <strong>
+                                    <t t-esc="name"/>
+                                </strong>
+                            </h5>
+                        </a>
+                    </li>
+                </ul>
+                <ul t-elif="active_index == 'blog'" class="list-unstyled">
+                    <li t-foreach="search_data" t-as="blog_post" class="search_blog_list">
+                        <t t-set="url" t-value="url_regex and url_regex % blog_post.id or url_field and blog_post[url_field] or '/'"/>
+                        <t t-set="name" t-value="name_field and blog_post[name_field]"/>
+                        <a t-att-href="url">
+                            <h2 t-esc="name" class="mb4 o_blog_post_title">Untitled Post</h2>
+                        </a>
+                        <div class="text-muted">
+                            <div name="blog_post_data" class="mb0">
+                                <span t-field="blog_post.author_id" style="display: inline-block;" t-options="{                                 &quot;widget&quot;: &quot;contact&quot;,                                 &quot;fields&quot;: [&quot;name&quot;]                             }"/>
+                                &amp;mdash;
+                                <span t-field="blog_post.post_date" t-options="{&quot;format&quot;: &quot;MMMM yyyy&quot;}"/>
+                            </div>
+                            <p t-field="blog_post.website_meta_description" class="mb12 mt12 mb32 o_blog_post_teaser"/>
+                        </div>
+                    </li>
+                </ul>
+                <ul t-else="" class="list-unstyled">
+                    <li t-foreach="search_data" t-as="other" class="search_list">
+                        <t t-set="url" t-value="url_regex and url_regex % other.id or url_field and other[url_field] or '/'"/>
+                        <t t-set="name" t-value="name_field and other[name_field]"/>
+                        <a t-att-href="url">
+                            <h5 class="mt0 mb0">
+                                <strong>
+                                    <t t-esc="name"/>
+                                </strong>
+                            </h5>
+                        </a>
+                    </li>
+                </ul>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_searchapp_menu,access_searchapp_menu,model_searchapp_search,,1,1,1,1
+access_searchapp_search_attrib,access_searchapp_search_attrib,model_searchapp_search_attrib,,1,1,1,1

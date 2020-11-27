@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sitesearchapp_config_view_form" model="ir.ui.view">
+            <field name="name">sitesearchapp.config.view.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='webmaster_settings']" position="after">
+                    <h2>SiteSearchApp</h2>
+                    <div class="row mt16 o_settings_container" id="ssa_settings">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="ssa_enable"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="SiteSearchApp" for="ssa_enable"/>
+                                <div class="text-muted">
+                                    Enable SiteSearchApp in your website
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [('ssa_enable', '=', False)]}">
+                                    <div class="row">
+                                        <label for="ssa_host" string="Host" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_host"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_api_key" string="API Key" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_api_key"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_user" string="User" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_user"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_password" string="Password" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_password" password="True"/>
+                                    </div>
+                                    <field name="ssa_log_api" invisible="1"/>
+                                    <field name="ssa_test_api" invisible="1"/>
+                                    <field name="ssa_index_api" invisible="1"/>
+                                    <field name="ssa_delete_api" invisible="1"/>
+                                    <field name="ssa_search_api" invisible="1"/>
+                                    <field name="ssa_indices_api" invisible="1"/>
+                                    <field name="ssa_documents_api" invisible="1"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" id="ssa_logging"
+                             attrs="{'invisible': [('ssa_enable', '=', False)]}">
+                            <div class="o_setting_right_pane">
+                                <button string="Test Connection" type="object" name="test_connection"
+                                        class="oe_highlight oe_inline my-3 mr-3"/>
+                                <button string="Get Indices" type="object" name="get_indices"
+                                        class="oe_highlight oe_inline my-3 mr-3"/>
+                                <button string="Index Site" type="object" name="index_site"
+                                        class="oe_highlight oe_inline my-3"/>
+                                <separator/>
+                                <span class="o_form_label">SiteSearchApp Logging</span>
+                                <div class="text-muted">
+                                    Comma-separated list of IP Addresses excluded from search logs
+                                </div>
+                                <field name="ssa_ip_whitelist" style="width:100%"/>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" id="ssa_searchstyles_1"
+                             attrs="{'invisible': [('ssa_enable', '=', False)]}">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">SiteSearchApp Styling</span>
+                                <div class="text-muted">
+                                    Customize SiteSearchApp Results Box Colors
+                                </div>
+                                <div class="content-group">
+                                    <div class="row">
+                                        <label for="ssa_alignment" string="Alignment" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_alignment"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_text_color" string="Text Color" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_text_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_title_color" string="Title Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_title_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_price_color" string="Price Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_price_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_border_color" string="Border Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_border_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_loader_color" string="Loader Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_loader_color"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" id="ssa_searchstyles_2"
+                             attrs="{'invisible': [('ssa_enable', '=', False)]}">
+                            <div class="o_setting_right_pane mt-5">
+                                <div class="content-group">
+                                    <div class="row">
+                                        <label for="ssa_slash_color" string="Slash Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_slash_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_highlight_color" string="Highlight Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_highlight_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_hover_color" string="Hover Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_hover_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_bg_color" string="BG Color" class="col-md-3 o_light_label"/>
+                                        <field name="ssa_bg_color"/>
+                                    </div>
+                                    <div class="row">
+                                        <label for="ssa_title_bg_color" string="Title BG Color"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="ssa_title_bg_color"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 o_setting_box" id="ssa_custom_css"
+                             attrs="{'invisible': [('ssa_enable', '=', False)]}">
+                            <div class="o_setting_right_pane mt-3">
+                                <span class="o_form_label">SiteSearchApp CSS</span>
+                                <div class="text-muted">
+                                    Create custom css styles. Paste your code here.
+                                </div>
+                                <field name="ssa_custom_css" colspan="12" rowspan="12" nolabel="1" style="width:100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
